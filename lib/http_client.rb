@@ -17,6 +17,6 @@ class HttpClient
   end
 
   def initialize(host = 'localhost', port = 8080)
-    @Socket = TCPSocket::new host, port
+    @Socket = TCPSocket.new host, port
   end
 end

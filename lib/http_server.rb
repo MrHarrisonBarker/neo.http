@@ -22,6 +22,12 @@ class HttpServer
   def next
     client = @Socket.accept
 
+    begin
+      puts client.gets
+    end while client.eof?
+
+    # puts "Client sent #{client.recv 1000}"
+
     client.puts "Hello world!"
     client.puts "Time is #{Time.now}"
 
