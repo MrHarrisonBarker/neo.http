@@ -5,4 +5,5 @@ module Utils
   HT = "\x9"
   CTL = 127.chr
   CRLF = CR + LF
+  LWS = CRLF + SP
 end

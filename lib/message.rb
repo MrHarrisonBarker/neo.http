@@ -12,7 +12,7 @@ class Message
   @_message_headers = Array::new
   @_message_body   = nil
 
-  def initialize(_start_line, _message_headers, _message_body)
+  def initialize(_start_line, _message_headers = Array::new, _message_body = nil)
     @_start_line     = _start_line
     @_message_body   = _message_body
     @_message_headers = _message_headers

@@ -16,6 +16,9 @@ class Header
   end
 
   def to_s
+    if @_key == nil or @_value == nil
+      return nil
+    end
     "#{@_key}:#{@_value}"
   end
 end
