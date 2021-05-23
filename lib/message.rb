@@ -1,4 +1,4 @@
-require 'utils'
+require_relative 'utils'
 
 class Message
 
@@ -8,18 +8,22 @@ class Message
   #                  [ message-body ]
   #start-line      = Request-Line | Status-Line
 
-  @_start_line = RequestLine | StatusLine
-  @_message_header = nil
-  @_message_body = nil
+  @_start_line     = nil
+  @_message_headers = Array::new
+  @_message_body   = nil
 
-  def initialize(_start_line, _message_header, _message_body)
-    @_start_line = _start_line
-    @_message_body = _message_body
-    @_message_header = _message_header
+  def initialize(_start_line, _message_headers, _message_body)
+    @_start_line     = _start_line
+    @_message_body   = _message_body
+    @_message_headers = _message_headers
+  end
+
+  def add_header(header)
+    @_message_headers << header
   end
 
   def to_s
-    "#{@_start_line.to_s}#{@_message_header.to_s}#{Utils::CRLF}#{@_message_body}"
+    "#{@_start_line.to_s}#{@_message_headers.join(Utils::CRLF)}#{Utils::CRLF}#{@_message_body}"
   end
 
 end
