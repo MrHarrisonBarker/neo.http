@@ -22,7 +22,7 @@ class HttpRequest < Message
   end
 
   def _default_headers
-    [RequestHeaders::Accept::new,RequestHeaders::AcceptCharset::new,RequestHeaders::AcceptEncoding::new,RequestHeaders::AcceptLanguage::new]
+    [RequestHeaders::Accept::new, RequestHeaders::AcceptCharset::new, RequestHeaders::AcceptEncoding::new, RequestHeaders::AcceptLanguage::new, GenericHeaders::Connection::new, GenericHeaders::CacheControl::new, RequestHeaders::UserAgent::new]
   end
 end
 
@@ -41,6 +41,6 @@ class RequestLine
   end
 
   def to_s
-    "#{@_method.to_s}#{Utils::SP}#{@_request_uri.to_s}#{Utils::SP}#{@_http_version.to_s}#{Utils::CRLF}"
+    "#{@_method.to_s}#{Utils::SP}#{@_request_uri.to_s}#{Utils::SP}HTTP/#{@_http_version.to_s}#{Utils::CRLF}"
   end
 end

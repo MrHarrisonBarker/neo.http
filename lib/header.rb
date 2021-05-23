@@ -19,13 +19,25 @@ class Header
     if @_key == nil or @_value == nil
       return nil
     end
-    "#{@_key}:#{@_value}"
+    "#{@_key}: #{@_value}"
   end
 end
 
 
 module GenericHeaders
+  class CacheControl < Header
+    def initialize(value = "max-age=0")
+      @_key = "Cache-Control"
+      @_value = value
+    end
+  end
 
+  class Connection < Header
+    def initialize(value = "keep-alive")
+      @_key = "Connection"
+      @_value = value
+    end
+  end
 end
 
 module RequestHeaders
@@ -54,6 +66,13 @@ module RequestHeaders
     def initialize(value = "en,en-us")
       @_key   = "Accept-Language"
       @_value = value
+    end
+  end
+
+  class UserAgent < Header
+    def initialize
+      @_key = "User-Agent"
+      @_value = "http.neo/0.1"
     end
   end
 end
