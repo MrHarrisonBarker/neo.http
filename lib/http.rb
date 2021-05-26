@@ -10,7 +10,7 @@ class Http
   @_host = nil
   @_port = nil
 
-  def initialize(host, port)
+  def initialize(host = "localhost", port = "80")
     @_host = host
     @_port = port
   end
