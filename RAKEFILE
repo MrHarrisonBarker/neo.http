@@ -1,18 +1,12 @@
 require "rake"
 require "rspec/core/rake_task"
-require 'rubocop/rake_task'
 
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern    = Dir.glob("spec/**/*_spec.rb")
   t.rspec_opts = "--format documentation"
 end
 
-RuboCop::RakeTask.new(:lint) do |task|
-  task.patterns      = ['lib/**/*.rb', 'test/**/*.rb']
-  task.fail_on_error = false
-end
-
-task default: %w[lint spec]
+task default: %w[spec]
 
 task :run do
   ruby 'lib/main.rb'
