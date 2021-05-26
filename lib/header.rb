@@ -11,6 +11,7 @@ class Header
   @_value = nil
 
   def initialize (key, value)
+    puts("new header init #{key},#{value}")
     @_key   = key
     @_value = value
   end
@@ -21,20 +22,26 @@ class Header
     end
     "#{@_key}: #{@_value}"
   end
-end
 
+  def self.parse(s)
+    puts "parsing header #{s}"
+    key_value = s.split(":")
+    Header::new(key_value[0].chomp, key_value[1].chomp)
+  end
+
+end
 
 module GenericHeaders
   class CacheControl < Header
     def initialize(value = "max-age=0")
-      @_key = "Cache-Control"
+      @_key   = "Cache-Control"
       @_value = value
     end
   end
 
   class Connection < Header
     def initialize(value = "keep-alive")
-      @_key = "Connection"
+      @_key   = "Connection"
       @_value = value
     end
   end
@@ -71,7 +78,7 @@ module RequestHeaders
 
   class UserAgent < Header
     def initialize
-      @_key = "User-Agent"
+      @_key   = "User-Agent"
       @_value = "http.neo/0.1"
     end
   end

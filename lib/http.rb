@@ -1,6 +1,9 @@
 require_relative 'methods'
 require_relative 'http_request'
+require_relative 'http_response'
 require_relative 'header'
+
+# request = "GET\x20/\x20HTTP/1.0\r\nHost: localhost:8080\r\nAccept: */*\r\n\r\n"
 
 class Http
 
@@ -23,10 +26,19 @@ class Http
   def get_response(uri)
     TCPSocket.open(@_host, @_port) { |s|
       request = get(uri).to_s
-      # request = "GET\x20/\x20HTTP/1.0\r\nHost: localhost:8080\r\nAccept: */*\r\n\r\n"
       puts "sending \n#{request}\n"
+
       s.send (request), 0
-      return s.read
+
+      ready = IO.select([s], nil, nil, 10)
+
+      if ready.nil?
+        puts "FUCK you"
+      end
+
+      raw_response = s.readlines
+
+      HttpResponse.parse(raw_response)
     }
   end
 
