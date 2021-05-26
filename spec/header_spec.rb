@@ -15,7 +15,7 @@ describe 'Header' do
     header = Header::new "Accept", "*/*"
 
     it 'should match section 4.2' do
-      expect(header.to_s.chars).to eq(%w[A c c e p t : * / *])
+      expect(header.to_s.chars).to eq(["A", "c", "c", "e", "p", "t", ":", " ", "*", "/", "*"])
     end
   end
 
