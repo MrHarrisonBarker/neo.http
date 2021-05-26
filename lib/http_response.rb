@@ -87,10 +87,18 @@ class StatusLine
     version     = parts[0].chomp
     status_code = parts[1].chomp
 
-    reason_phrase = parts[2].split(Utils::CRLF)[0].chomp
+    reason_phrase = ""
+    unless parts[2].nil?
+      (2..parts.length - 1).each { |i|
+        if i == parts.length - 1
+          reason_phrase += parts[i].chomp
+        else
+          reason_phrase += parts[i].chomp + Utils::SP
+        end
+      }
+    end
 
     StatusLine::new(status_code, reason_phrase, version)
-
   end
 
 end
