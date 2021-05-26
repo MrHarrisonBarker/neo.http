@@ -36,7 +36,7 @@ class HttpResponse < Message
     headers      = []
     message_body = ""
 
-    until request_lines[current_line] == Utils::CRLF
+    until request_lines[current_line] == Utils::CRLF || request_lines[current_line].nil? || !request_lines[current_line].include?(":")
       puts "current line -> #{request_lines[current_line]}"
 
       new_header = Header.parse(request_lines[current_line])
