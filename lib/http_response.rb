@@ -1,8 +1,9 @@
-require_relative 'status_codes'
 require_relative 'header'
 require_relative 'utils'
 
 class HttpResponse < Message
+
+  attr_reader :_message_headers, :_message_body
 
   # Response      = Status-Line
   # *(( general-header
@@ -63,10 +64,12 @@ end
 
 class StatusLine
 
+  attr_reader :_status_code, :_reason_phrase
+
   # Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
 
   @_http_version  = ""
-  @_status_code   = StatusCodes::BAD_REQUEST
+  @_status_code   = :Continue
   @_reason_phrase = ""
 
   def initialize (status_code, reason = "", version = "HTTP/1.1")
@@ -76,7 +79,7 @@ class StatusLine
   end
 
   def to_s
-    "#{@_http_version.to_s}#{Utils::SP}#{@_status_code.to_s}#{Utils::SP}#{@_reason_phrase}#{Utils::CRLF}"
+    "#{@_http_version.to_s}#{Utils::SP}#{Utils::STATUS_CODES[@_status_code]}#{Utils::SP}#{@_reason_phrase}#{Utils::CRLF}"
   end
 
   def self.parse(s)
@@ -84,8 +87,9 @@ class StatusLine
 
     parts = s.split(Utils::SP)
 
-    version     = parts[0].chomp
-    status_code = parts[1].chomp
+    version = parts[0].chomp
+
+    status_code = Utils::STATUS_CODE_JUNC[parts[1].chomp.to_s]
 
     reason_phrase = ""
     unless parts[2].nil?
