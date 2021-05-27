@@ -30,4 +30,13 @@ describe 'Http' do
       expect(request).to be_kind_of(HttpRequest)
     end
   end
+
+  context "when sending" do
+    it 'should return request' do
+      request = Http::new::send(Methods::GET, URI::new("/"))
+
+      expect(request).to be_kind_of(HttpRequest)
+      expect(request._start_line._method).to eq("GET")
+    end
+  end
 end

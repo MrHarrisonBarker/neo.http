@@ -1,5 +1,6 @@
 require_relative 'message'
-require_relative 'header'
+require_relative 'request_headers'
+require_relative 'generic_headers'
 
 class HttpRequest < Message
 
@@ -9,12 +10,6 @@ class HttpRequest < Message
   # | entity-header ) CRLF)
   # CRLF
   # [ message-body ]
-
-  # def initialize(request_line, headers = Array::new, message = "")
-  #   @_start_line      = request_line
-  #   @_message_headers = headers
-  #   @_message_body    = message
-  # end
 
   def initialize(method, uri, body = "", headers = Array::new, default_headers = true)
     @_start_line   = RequestLine::new method, uri
@@ -26,18 +21,6 @@ class HttpRequest < Message
       @_message_headers = Array::new.concat(headers)
     end
   end
-
-  # def self.new(method, uri, body = "", default_headers = true)
-  #   start_line = RequestLine::new method, uri
-  #
-  #   if default_headers
-  #     headers = self.default_headers
-  #   else
-  #     headers = Array::new
-  #   end
-  #
-  #   HttpRequest::new(start_line, headers, body)
-  # end
 
   def self.default_headers
     [RequestHeaders::Accept::new, RequestHeaders::AcceptCharset::new, RequestHeaders::AcceptEncoding::new, RequestHeaders::AcceptLanguage::new, GenericHeaders::Connection::new, GenericHeaders::CacheControl::new, RequestHeaders::UserAgent::new]

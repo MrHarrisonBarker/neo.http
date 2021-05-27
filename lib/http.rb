@@ -33,7 +33,7 @@ class Http
   end
 
   def send(method, uri, body = "", headers = Array::new, default_headers = false)
-    HttpRequest::new(method, uri, headers, default_headers)
+    HttpRequest::new(method, uri, body, headers, default_headers)
   end
 
   def get(uri, body = "", headers = Array::new)
@@ -82,12 +82,20 @@ class Http
     loop do
       client = server.accept
 
-      # req = client.recv(1024)
-      req = client.readlines
+      req_raw = client.recv(1024)
+      puts "raw ->\n#{req_raw}"
+
+      req = HttpRequest.parse(req_raw.split(Utils::CRLF))
+      # req =  HttpRequest.parse(client.readlines)
       puts "Request: #{req}"
 
-      client.print "HTTP/1.1 200/OK\r\nContent-type: text/html\r\n\r\n"
-      client.print "<html><body><h1>#{Time.now}</h1></body></html>\r\n"
+      res = HttpResponse.ok_result.to_s
+      puts "Response: #{res}"
+
+      client.print res
+
+      # client.print "HTTP/1.1 200/OK\r\nContent-type: text/html\r\n\r\n"
+      # client.print "<html><body><h1>#{Time.now}</h1></body></html>\r\n"
       client.close
     end
   end

@@ -18,11 +18,9 @@ class HttpResponse < Message
     @_message_body    = message
   end
 
-  # def initialize(status, reason, headers = [], message = "")
-  #   @_start_line = StatusLine::new(status, reason)
-  #   @_message_headers = headers
-  #   @_message_body = message
-  # end
+  def self.default_headers
+    [GenericHeaders::Date::new, GenericHeaders::Connection::new]
+  end
 
   def self.parse (lines)
     lines.each_with_index do |line, l|
@@ -42,6 +40,14 @@ class HttpResponse < Message
     message_body, _ = self.parse_body(lines, current_line)
 
     HttpResponse::new(status_line, headers, message_body)
+  end
+
+  def self.ok_result(reason = "OK")
+    HttpResponse::new(StatusLine::new(:OK, reason), HttpResponse.default_headers)
+  end
+
+  def self.bad_request(reason = "BAD REQUEST")
+    HttpResponse::new(StatusLine::new(:Bad_Request, reason), HttpResponse.default_headers)
   end
 
 end
