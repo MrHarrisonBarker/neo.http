@@ -27,4 +27,5 @@ require_relative 'lib/uri'
 
 # s.close             # close socket when done
 
-puts Http::new("localhost", 8080)::get_response("/")
+# puts Http::new("localhost", 8080)::get_response("/")
+puts Http::new("localhost", 8080)::post_response("/posts","")

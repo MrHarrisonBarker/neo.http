@@ -2,7 +2,7 @@ require_relative 'utils'
 
 class Message
 
-  attr_reader :_message_headers
+  attr_reader :_message_headers, :_message_body
 
   #generic-message = start-line
   #                  *(message-header CRLF)
