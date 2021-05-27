@@ -24,38 +24,22 @@ class HttpResponse < Message
   #   @_message_body = message
   # end
 
-  def self.parse (request_lines)
-    request_lines.each_with_index do |line, l|
+  def self.parse (lines)
+    lines.each_with_index do |line, l|
       puts "[#{l}]: #{line}"
     end
 
-    status_line = StatusLine.parse(request_lines[0])
+    status_line = StatusLine.parse(lines[0])
 
     puts "status line -> #{status_line.to_s}"
 
     current_line = 1
-    headers      = []
-    message_body = ""
 
-    until request_lines[current_line] == Utils::CRLF || request_lines[current_line].nil? || !request_lines[current_line].include?(":")
-      puts "current line -> #{request_lines[current_line]}"
-
-      new_header = Header.parse(request_lines[current_line])
-      puts "parsed header #{new_header.to_s}"
-      headers.push(new_header)
-
-      current_line += 1
-    end
+    headers, current_line = self.parse_headers(lines, current_line)
 
     current_line += 1
 
-    until request_lines[current_line] == nil
-      puts "current message line -> #{request_lines[current_line]}"
-
-      message_body += (request_lines[current_line])
-
-      current_line += 1
-    end
+    message_body, _ = self.parse_body(lines, current_line)
 
     HttpResponse::new(status_line, headers, message_body)
   end

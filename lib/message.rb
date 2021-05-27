@@ -1,8 +1,9 @@
 require_relative 'utils'
+require_relative 'header'
 
 class Message
 
-  attr_reader :_message_headers, :_message_body
+  attr_accessor :_start_line, :_message_headers, :_message_body
 
   #generic-message = start-line
   #                  *(message-header CRLF)
@@ -36,6 +37,32 @@ class Message
     }
 
     "#{@_start_line.to_s}#{headers}#{Utils::CRLF}#{@_message_body}"
+  end
+
+  def self.parse_headers(lines, current_line)
+    headers = []
+    until lines[current_line] == Utils::CRLF || lines[current_line].nil? || !lines[current_line].include?(":")
+      puts "current line -> #{lines[current_line]}"
+
+      new_header = Header.parse(lines[current_line])
+      puts "parsed header #{new_header.to_s}"
+      headers.push(new_header)
+
+      current_line += 1
+    end
+    return headers, current_line
+  end
+
+  def self.parse_body(lines,current_line)
+    message_body = ""
+    until lines[current_line] == nil
+      puts "current message line -> #{lines[current_line]}"
+
+      message_body += (lines[current_line])
+
+      current_line += 1
+    end
+    return message_body, current_line
   end
 
 end

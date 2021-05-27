@@ -26,6 +26,9 @@ class Header
   def self.parse(s)
     puts "parsing header #{s}"
     key_value = s.split(":")
+    if (key_value[1])[0] == " "
+      key_value[1] = (key_value[1])[1..]
+    end
     Header::new(key_value[0].chomp, key_value[1].chomp)
   end
 

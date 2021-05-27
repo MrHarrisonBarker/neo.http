@@ -28,7 +28,7 @@ describe 'HttpResponse' do
       input_lines = ["HTTP/1.1\x20200\x20\r\n", "key: val\r\n", "\r\n"]
       response    = HttpResponse.parse(input_lines)
 
-      expect(response.to_s.chars).to eq(["H", "T", "T", "P", "/", "1", ".", "1", " ", "2", "0", "0", " ", "\r", "\n", "k", "e", "y", ":", " ", " ", "v", "a", "l", "\r", "\n", "\r", "\n"])
+      expect(response.to_s.chars).to eq(["H", "T", "T", "P", "/", "1", ".", "1", " ", "2", "0", "0", " ", "\r", "\n", "k", "e", "y", ":", " ", "v", "a", "l", "\r", "\n", "\r", "\n"])
       expect(response).to be_kind_of(HttpResponse)
     end
 
@@ -54,7 +54,7 @@ describe 'HttpResponse' do
 
       expect(response.to_s.chars).to eq(
                                        ["H", "T", "T", "P", "/", "1", ".", "1", " ", "2", "0", "0", " ", "T", "h", "i", "s", " ", "i", "s", " ", "a", " ", "r", "e", "a", "s", "o", "n", "\r", "\n",
-                                        "k", "e", "y", ":", " ", " ", "v", "a", "l", "\r", "\n",
+                                        "k", "e", "y", ":", " ", "v", "a", "l", "\r", "\n",
                                         "\r", "\n",
                                         "M", "e", "s", "s", "a", "g", "e"])
       expect(response).to be_kind_of(HttpResponse)
